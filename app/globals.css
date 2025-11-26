@@ -1,0 +1,326 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
+  }
+}
+
+body {
+  background-color: #F5F5F7;
+  font-family: var(--font-inter), sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+.preserve-3d {
+  transform-style: preserve-3d;
+}
+
+/* Hide scrollbar for dashboard "no-scroll" feel but allow functionality */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* --- NUCLEAR FIXES FOR AUTH PAGES --- */
+
+/* 1. KILL LASTPASS & EXTENSIONS (The "Last" text source) */
+[data-lastpass-icon-root],
+[data-lastpass-root],
+div[id^="lp"],
+div[class*="lastpass"],
+img[src*="lastpass"],
+img[alt*="Last"],
+img[alt*="last"],
+[title*="LastPass"],
+[aria-label*="LastPass"] {
+  display: none !important;
+  opacity: 0 !important;
+  width: 0 !important;
+  height: 0 !important;
+  pointer-events: none !important;
+  visibility: hidden !important;
+  position: absolute !important;
+}
+
+/* Prevent LastPass from messing with input backgrounds */
+input[data-lpignore="true"],
+[data-lpignore="true"] input {
+  background-image: none !important;
+  background-position: -1000px -1000px !important;
+  background-size: 0 !important;
+}
+
+/* 2. KILL GENERIC SPINNERS (The "Loading Ball") */
+button svg[class*="spin"],
+button div[class*="spin"],
+button span[class*="spin"],
+button svg[class*="load"],
+button div[class*="load"],
+button .loader,
+button .spinner,
+[data-stack-loading="true"] {
+  display: none !important;
+}
+
+/* 3. CLEAN UP AUTH BUTTONS ONLY */
+button[data-provider]::before,
+button[data-provider]::after,
+button[aria-label*="Google"]::before,
+button[aria-label*="Google"]::after,
+button[aria-label*="GitHub"]::before,
+button[aria-label*="GitHub"]::after {
+  content: none !important;
+  display: none !important;
+}
+
+/* 4. PROTECT PROVIDER LOGOS while hiding garbage */
+button[data-provider] img:not([alt*="Last"]):not([alt*="last"]),
+button[data-provider] svg {
+  display: block !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* 5. SPECIFIC GOOGLE & GITHUB BUTTON FIX */
+button[data-provider="google"],
+button[data-provider="github"],
+button[aria-label*="Google"],
+button[aria-label*="GitHub"] {
+  position: relative !important;
+  overflow: hidden !important;
+  /* Clip any absolute positioned garbage */
+}
+
+/* Target by data-provider AND aria-label to be safe */
+button[data-provider="google"] img:not([src*="google"]):not([src*="gstatic"]),
+button[aria-label*="Google"] img:not([src*="google"]):not([src*="gstatic"]),
+button[data-provider="github"] img:not([src*="github"]),
+button[aria-label*="GitHub"] img:not([src*="github"]),
+button[data-provider="google"] div[style*="lastpass"],
+button[aria-label*="Google"] div[style*="lastpass"],
+button[data-provider="github"] div[style*="lastpass"],
+button[aria-label*="GitHub"] div[style*="lastpass"] {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  opacity: 0 !important;
+  position: absolute !important;
+}
+
+/* 6. Catch-all for "Last" text nodes if possible */
+button[data-provider] span:empty {
+  display: none !important;
+}
+
+/* 7. INPUT VISIBILITY FIX */
+/* Force inputs to have visible text and placeholders */
+input,
+textarea,
+select {
+  color: white !important;
+  /* Force white text */
+  background-color: rgba(15, 23, 42, 0.5) !important;
+  /* Dark semi-transparent background */
+}
+
+input::placeholder {
+  color: rgba(255, 255, 255, 0.5) !important;
+  /* Visible placeholder */
+  opacity: 1 !important;
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
+  }
+}
+
+body {
+  background-color: #F5F5F7;
+  font-family: var(--font-inter), sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+.preserve-3d {
+  transform-style: preserve-3d;
+}
+
+/* Hide scrollbar for dashboard "no-scroll" feel but allow functionality */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* --- NUCLEAR FIXES FOR AUTH PAGES --- */
+
+/* 1. KILL LASTPASS & EXTENSIONS (The "Last" text source) */
+[data-lastpass-icon-root],
+[data-lastpass-root],
+div[id^="lp"],
+div[class*="lastpass"],
+img[src*="lastpass"],
+img[alt*="Last"],
+img[alt*="last"],
+[title*="LastPass"],
+[aria-label*="LastPass"] {
+  display: none !important;
+  opacity: 0 !important;
+  width: 0 !important;
+  height: 0 !important;
+  pointer-events: none !important;
+  visibility: hidden !important;
+  position: absolute !important;
+}
+
+/* Prevent LastPass from messing with input backgrounds */
+input[data-lpignore="true"],
+[data-lpignore="true"] input {
+  background-image: none !important;
+  background-position: -1000px -1000px !important;
+  background-size: 0 !important;
+}
+
+/* 2. KILL GENERIC SPINNERS (The "Loading Ball") */
+button svg[class*="spin"],
+button div[class*="spin"],
+button span[class*="spin"],
+button svg[class*="load"],
+button div[class*="load"],
+button .loader,
+button .spinner,
+[data-stack-loading="true"] {
+  display: none !important;
+}
+
+/* 3. CLEAN UP AUTH BUTTONS ONLY */
+button[data-provider]::before,
+button[data-provider]::after,
+button[aria-label*="Google"]::before,
+button[aria-label*="Google"]::after,
+button[aria-label*="GitHub"]::before,
+button[aria-label*="GitHub"]::after {
+  content: none !important;
+  display: none !important;
+}
+
+/* 4. PROTECT PROVIDER LOGOS while hiding garbage */
+button[data-provider] img:not([alt*="Last"]):not([alt*="last"]),
+button[data-provider] svg {
+  display: block !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* 5. SPECIFIC GOOGLE & GITHUB BUTTON FIX */
+button[data-provider="google"],
+button[data-provider="github"],
+button[aria-label*="Google"],
+button[aria-label*="GitHub"] {
+  position: relative !important;
+  overflow: hidden !important;
+  /* Clip any absolute positioned garbage */
+}
+
+/* Target by data-provider AND aria-label to be safe */
+button[data-provider="google"] img:not([src*="google"]):not([src*="gstatic"]),
+button[aria-label*="Google"] img:not([src*="google"]):not([src*="gstatic"]),
+button[data-provider="github"] img:not([src*="github"]),
+button[aria-label*="GitHub"] img:not([src*="github"]),
+button[data-provider="google"] div[style*="lastpass"],
+button[aria-label*="Google"] div[style*="lastpass"],
+button[data-provider="github"] div[style*="lastpass"],
+button[aria-label*="GitHub"] div[style*="lastpass"] {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  opacity: 0 !important;
+  position: absolute !important;
+}
+
+/* 6. Catch-all for "Last" text nodes if possible */
+button[data-provider] span:empty {
+  display: none !important;
+}
+
+/* 7. INPUT VISIBILITY FIX */
+/* Force inputs to have visible text and placeholders */
+input,
+textarea,
+select {
+  color: white !important;
+  /* Force white text */
+  background-color: rgba(15, 23, 42, 0.5) !important;
+  /* Dark semi-transparent background */
+}
+
+input::placeholder {
+  color: rgba(255, 255, 255, 0.5) !important;
+  /* Visible placeholder */
+  opacity: 1 !important;
+}
+
+label {
+  color: rgba(255, 255, 255, 0.9) !important;
+  /* Visible labels */
+}
+
+/* Fix for Stack Auth specific input wrappers if needed */
+[data-stack-input] {
+  color: white !important;
+}
+
+/* --- SAFETY: FORCE CALCULATOR BUTTONS VISIBILITY --- */
+/* Ensure the gold buttons never disappear or lose text color */
+button.bg-luxury-gold,
+button[class*="bg-luxury-gold"] {
+  opacity: 1 !important;
+  visibility: visible !important;
+  display: inline-flex !important;
+  color: black !important;
+}
+
+button.bg-luxury-gold:hover,
+button[class*="bg-luxury-gold"]:hover {
+  opacity: 1 !important;
+  background-color: #F3C600 !important;
+  color: black !important;
+}

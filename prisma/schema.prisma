@@ -1,0 +1,81 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id               String   @id // Matches Clerk ID
+  email            String   @unique
+  stripeCustomerId String?
+  plan             UserPlan @default(FREE)
+  taxSettings      Json? // Stores TaxProfile data
+
+  boards    Board[]
+  auditLogs AuditLog[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Board {
+  id     String    @id @default(cuid())
+  userId String
+  title  String
+  type   BoardType
+  color  String    @default("#2dd4bf")
+
+  transactions Transaction[]
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Transaction {
+  id       String            @id @default(cuid())
+  boardId  String
+  title    String
+  amount   Float
+  status   TransactionStatus
+  priority String            @default("Medium") // High, Medium, Low
+  person   String            @default("You")
+  date     DateTime
+  category String
+
+  board Board @relation(fields: [boardId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model AuditLog {
+  id        String @id @default(cuid())
+  userId    String
+  action    String
+  ipAddress String
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+}
+
+enum UserPlan {
+  FREE
+  PRO
+}
+
+enum BoardType {
+  INCOME
+  EXPENSE
+}
+
+enum TransactionStatus {
+  DONE
+  REVIEW
+  PENDING
+}
