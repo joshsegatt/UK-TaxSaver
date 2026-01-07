@@ -28,6 +28,8 @@ ts-debug.log*
 .env.development.local
 .env.test.local
 .env.production.local
+.env*.local
+!.env.example
 
 # Vercel
 .vercel
@@ -35,3 +37,7 @@ ts-debug.log*
 # TypeScript
 *.tsbuildinfo
 next-env.d.ts
+
+# Logs that may contain sensitive data
+*.log
+
