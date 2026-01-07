@@ -5,6 +5,10 @@ import { GoogleGenerativeAI } from '@google/generative-ai';
 import { Ratelimit } from '@upstash/ratelimit';
 import { Redis } from '@upstash/redis';
 
+// Constants
+const MAX_INCOME = 10_000_000;
+const GEMINI_MODEL = 'gemini-1.5-pro'; // Use latest stable model version
+
 const redis = new Redis({
   url: process.env.UPSTASH_REDIS_REST_URL!,
   token: process.env.UPSTASH_REDIS_REST_TOKEN!,
@@ -49,7 +53,7 @@ export async function POST(req: NextRequest) {
     const { income, deductions, filingStatus } = body;
 
     // Input validation
-    if (typeof income !== 'number' || income < 0 || income > 10000000) {
+    if (typeof income !== 'number' || income < 0 || income > MAX_INCOME) {
       return NextResponse.json(
         { error: 'Invalid income value' },
         { status: 400 }
@@ -58,7 +62,7 @@ export async function POST(req: NextRequest) {
 
     // Initialize Gemini
     const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
-    const model = genAI.getGenerativeModel({ model: 'gemini-pro' });
+    const model = genAI.getGenerativeModel({ model: GEMINI_MODEL });
 
     // Create prompt for tax analysis
     const prompt = `
@@ -92,9 +96,8 @@ Format response as JSON with these fields:
     // Parse JSON response
     let analysis;
     try {
-      // Extract JSON from markdown code blocks if present
-      const jsonMatch = text.match(/```json\n([\s\S]*?)\n```/) || 
-                       text.match(/```\n([\s\S]*?)\n```/);
+      // Extract JSON from markdown code blocks if present (handles various formatting)
+      const jsonMatch = text.match(/```(?:json)?\s*\n([\s\S]*?)\n\s*```/i);
       const jsonText = jsonMatch ? jsonMatch[1] : text;
       analysis = JSON.parse(jsonText);
     } catch (parseError) {

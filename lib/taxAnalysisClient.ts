@@ -83,7 +83,11 @@ export async function analyzeTax(
 
     if (!response.ok) {
       if (response.status === 429) {
-        const resetTime = new Date(data.reset).toLocaleTimeString();
+        const resetTime = new Date(data.reset).toLocaleTimeString('en-GB', {
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit'
+        });
         throw new TaxAnalysisError(
           `Rate limit exceeded. Try again at ${resetTime}`,
           429,

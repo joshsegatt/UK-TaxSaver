@@ -108,7 +108,10 @@ export function TaxAnalyzer() {
               API Calls: {rateLimit.remaining}/{rateLimit.limit} remaining
               {rateLimit.remaining === 0 && (
                 <span className="ml-2 text-red-600">
-                  (Reset at {new Date(rateLimit.reset).toLocaleTimeString()})
+                  (Reset at {new Date(rateLimit.reset).toLocaleTimeString('en-GB', {
+                    hour: '2-digit',
+                    minute: '2-digit'
+                  })})
                 </span>
               )}
             </p>
